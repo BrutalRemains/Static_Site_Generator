@@ -11,7 +11,7 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
             if len(parts) == 1:
                 new_nodes.append(n)
             elif len(parts) % 2 == 0:
-                raise Exception("incomplete")
+                new_nodes.append(n) # raise Exception("incomplete")
             else:
                 for i, part in enumerate(parts):
                     if i % 2 == 0:

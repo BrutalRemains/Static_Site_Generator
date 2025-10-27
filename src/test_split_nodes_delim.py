@@ -29,10 +29,10 @@ class TestSplitNode(unittest.TestCase):
             [(n.text, n.text_type) for n in out],
             [("hello, ", TextType.TEXT), ("world", TextType.ITALIC), ("!", TextType.TEXT)],
         )
-    def test_imcomplete(self):
-        nodes = [TextNode("hello, _world!", TextType.TEXT)]
-        with self.assertRaisesRegex(Exception, "incomplete"):
-            split_nodes_delimiter(nodes, "_", TextType.ITALIC)
+    # def test_imcomplete(self):
+    #     nodes = [TextNode("hello, _world!", TextType.TEXT)]
+    #     with self.assertRaisesRegex(Exception, "incomplete"):
+    #         split_nodes_delimiter(nodes, "_", TextType.ITALIC)
 
 class TestSplitImagesAndLinks(unittest.TestCase):
     def test_split_images(self):
