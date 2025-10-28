@@ -28,17 +28,31 @@ def block_to_block_type(block):
             return BlockType.HEADING
         
 
-    if block.startswith('```') and block.endwith('```'):
+    if block.startswith('```') and block.endswith('```'):
         return BlockType.CODE
 
-    if block.startswith('>'):
+    # split the block into individual lines so we can inspect each line separately
+    lines = block.splitlines()
+
+    # If every line starts with '>' treat the block as a quote (block-level '>' markdown)
+    if lines and all(line.startswith('>') for line in lines):
         return BlockType.QUOTE
-    
-    if block.startswith('- '):
+     
+    # If every line starts with '- ' treat the block as an unordered list (dash list items)
+    if lines and all(line.startswith('- ') for line in lines):
         return BlockType.UNORDERED_LIST
 
-    if block.startswith('. '):
-        return BlockType.ORDERED_LIST
+    # counts ordered lines
+    if lines:
+        n = 1
+        ok = True
+        for line in lines:
+            if not line.startswith(f"{n}. "):
+                ok = False
+                break
+            n += 1
+        if ok:
+            return BlockType.ORDERED_LIST
 
     # Default: paragraph
     return BlockType.PARAGRAPH
