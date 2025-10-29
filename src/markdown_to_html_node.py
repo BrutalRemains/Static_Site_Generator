@@ -76,16 +76,16 @@ def text_to_children(text):
     return html_nodes
 
 def heading_to_html(block):
-    count_hashes = 0
+    i = 0
     while i < len(block) and block[i] == '#':
         i += 1
     if i == 0 or i > 6:
         raise Exception("invalid heading block")
     
-    #after_hashes = block[count_hashes+1:]
+    #after_hashes = block[i+1:]
     text = block[i:].lstrip()
     children = text_to_children(text)
-    html_tag = f"h{count_hashes}"
+    html_tag = f"h{i}"
     node = ParentNode(html_tag, children=children)
     return node
 
@@ -101,7 +101,7 @@ def quote_to_html(block):
         else:
             cleaned.append(line)
         
-    text = " ".join(s.strip for s in cleaned if s.strip())
+    text = " ".join(s.strip() for s in cleaned if s.strip())
     children = text_to_children(text)
     node = ParentNode("blockquote", children=children)
     return node
